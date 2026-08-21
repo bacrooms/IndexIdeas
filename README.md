@@ -1,10 +1,10 @@
-# Stack Overflow Instagram Effect
+# IndexIdeasV2
 
 A Pen created on CodePen.
 
 Original URL: [https://codepen.io/Andrea-Catanzaro/pen/bNgyqbp](https://codepen.io/Andrea-Catanzaro/pen/bNgyqbp).
 
-## Index Ideas deployment
+## IndexIdeasV2 deployment
 
 The production site is served from `dist/`. Registration submissions are sent
 to the Vercel Function at `/api/register`, which writes to Supabase without
