@@ -1,0 +1,45 @@
+<section class="title">
+  <h1>Index Ideas</h1>
+  <h1>The Best Thinking</h1>
+  <h1>The Best Thinkers</h1>
+  <h1>Happening Here</h1>
+  <h1>Charlotte, NC</h1>
+  <h1 class="drawer-trigger" role="button" tabindex="0" aria-controls="registration-drawer" aria-expanded="false">Sparkhouse</h1>
+  <h1 class="drawer-trigger" role="button" tabindex="0" aria-controls="registration-drawer" aria-expanded="false">September 18, 2026</h1>
+  <h1 id="join-trigger" class="drawer-trigger" role="button" tabindex="0" aria-controls="registration-drawer" aria-expanded="false">Join Us</h1>
+</section>
+
+<div class="drawer-backdrop" data-drawer-close></div>
+
+<aside id="registration-drawer" class="registration-drawer" aria-hidden="true" aria-labelledby="drawer-title">
+  <div class="drawer-swipe-handle" aria-hidden="true"></div>
+  <button class="drawer-close" type="button" aria-label="Close registration" data-drawer-close>×</button>
+  <p class="drawer-kicker">Index Ideas · Charlotte</p>
+  <h2 id="drawer-title">Join the brightest thinkers in the room.</h2>
+  <p class="drawer-copy">Register your interest for September 18, 2026 at Sparkhouse.</p>
+
+  <form id="registration-form" class="registration-form">
+    <label>
+      <span>Name</span>
+      <input name="name" type="text" autocomplete="name" placeholder="Your name" maxlength="100" required>
+    </label>
+    <label>
+      <span>Email</span>
+      <input name="email" type="email" autocomplete="email" placeholder="you@example.com" maxlength="320" required>
+    </label>
+    <label>
+      <span>Phone number</span>
+      <input name="phone" type="tel" autocomplete="tel" placeholder="(704) 555-0123" minlength="7" maxlength="30" required>
+    </label>
+    <label class="registration-honeypot" aria-hidden="true">
+      <span>Website</span>
+      <input name="website" type="text" autocomplete="off" tabindex="-1">
+    </label>
+    <p class="form-disclosure">By submitting, you agree that Index Ideas may contact you about this event.</p>
+    <div class="drawer-footer">
+      <button class="submit-button" type="submit">Submit registration</button>
+      <button class="cancel-button" type="button" data-drawer-close>Cancel</button>
+    </div>
+    <p id="form-status" class="form-status" role="status" aria-live="polite"></p>
+  </form>
+</aside>
