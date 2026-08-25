@@ -25,42 +25,34 @@ async function sendConfirmationEmail({ name, email }) {
         "",
         "You're registered for Index Ideas.",
         "",
-        "September 18, 2026 · 7–9pm",
-        "Sparkhouse",
-        "Charlotte, NC",
+        "September 18, 2026, 7–9pm",
+        "Sparkhouse · Charlotte, NC",
         "",
-        "The best thinking. The best thinkers. Happening here.",
-        "",
-        "We look forward to seeing you."
+        "See you there."
     ].join("\n");
 
     const html = `<!doctype html>
 <html lang="en">
-  <body style="margin:0;background:#f2f6ff;color:#213666;font-family:Inter,Arial,sans-serif;">
-    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">You're registered for Index Ideas in Charlotte.</div>
-    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f2f6ff;padding:32px 16px;">
+  <body style="margin:0;background:#ffffff;color:#17213b;font-family:Arial,sans-serif;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">Your Index Ideas registration is confirmed.</div>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#ffffff;padding:24px;">
       <tr>
         <td align="center">
-          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#213666;border-radius:28px;overflow:hidden;box-shadow:0 20px 60px rgba(33,54,102,.18);">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:520px;">
             <tr>
-              <td style="padding:48px 42px 24px;color:#ffcc00;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Index Ideas · Charlotte</td>
+              <td style="padding:24px 0 28px;color:#2780ff;font-size:14px;font-weight:700;">Index Ideas</td>
             </tr>
             <tr>
-              <td style="padding:0 42px;color:#ffffff;font-size:46px;font-weight:300;line-height:1.04;letter-spacing:-2px;">You're in, ${safeName}.</td>
+              <td style="padding:0 0 18px;font-size:32px;font-weight:400;line-height:1.15;">You're registered.</td>
             </tr>
             <tr>
-              <td style="padding:24px 42px 34px;color:rgba(255,255,255,.76);font-size:17px;line-height:1.6;">Your registration is confirmed. Join the brightest thinkers in the room for an evening of ideas, conversation, and forward motion.</td>
+              <td style="padding:0 0 28px;color:#566078;font-size:16px;line-height:1.6;">Hi ${safeName}, your registration for Index Ideas is confirmed.</td>
             </tr>
             <tr>
-              <td style="padding:0 42px 48px;">
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:rgba(39,128,255,.22);border:1px solid rgba(255,255,255,.18);border-radius:18px;">
-                  <tr><td style="padding:24px 26px 8px;color:#ffffff;font-size:22px;font-weight:500;">September 18, 2026 · 7–9pm</td></tr>
-                  <tr><td style="padding:0 26px 24px;color:rgba(255,255,255,.7);font-size:15px;line-height:1.5;">Sparkhouse<br>Charlotte, NC</td></tr>
-                </table>
-              </td>
+              <td style="border-top:1px solid #dfe5f1;border-bottom:1px solid #dfe5f1;padding:22px 0;color:#17213b;font-size:16px;line-height:1.7;"><strong>September 18, 2026 · 7–9pm</strong><br>Sparkhouse · Charlotte, NC</td>
             </tr>
             <tr>
-              <td style="background:#2780ff;padding:24px 42px;color:#ffffff;font-size:14px;line-height:1.5;">The best thinking. The best thinkers. Happening here.</td>
+              <td style="padding:28px 0;color:#566078;font-size:15px;line-height:1.6;">See you there.<br><br>Index Ideas</td>
             </tr>
           </table>
         </td>
@@ -79,7 +71,7 @@ async function sendConfirmationEmail({ name, email }) {
             body: JSON.stringify({
                 from,
                 to: [email],
-                subject: "You're registered for Index Ideas",
+                subject: "Index Ideas registration confirmed",
                 text,
                 html
             })
