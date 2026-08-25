@@ -312,6 +312,7 @@ body.drawer-open .registration-drawer {
   margin-top: 4px;
 }
 
+.share-button,
 .cancel-button {
   width: 100%;
   padding: 15px 18px;
@@ -322,6 +323,16 @@ body.drawer-open .registration-drawer {
   font: 500 15px/1 Inter, sans-serif;
   cursor: pointer;
   transition: background 180ms ease, border-color 180ms ease;
+}
+
+.share-button {
+  border-color: rgba(39, 128, 255, 0.58);
+  background: rgba(39, 128, 255, 0.16);
+}
+
+.share-button:hover {
+  border-color: rgba(74, 150, 255, 0.88);
+  background: rgba(39, 128, 255, 0.26);
 }
 
 .cancel-button:hover {

@@ -2,6 +2,7 @@
 const registrationDrawer = document.querySelector("#registration-drawer");
 const registrationForm = document.querySelector("#registration-form");
 const formStatus = document.querySelector("#form-status");
+const shareButton = document.querySelector("#share-button");
 const drawerCloseButtons = document.querySelectorAll("[data-drawer-close]");
 let swipeStartX = 0;
 let swipeStartY = 0;
@@ -77,8 +78,12 @@ registrationForm.addEventListener("submit", async (event) => {
             throw new Error(result.error || "Registration could not be completed.");
         }
 
-        formStatus.textContent = "Thanks — your registration has been received.";
-        formStatus.classList.add("is-success");
+        if (result.emailSent) {
+            formStatus.textContent = "You're registered — check your inbox for confirmation.";
+            formStatus.classList.add("is-success");
+        } else {
+            formStatus.textContent = "You're registered. Your confirmation email may be delayed.";
+        }
         registrationForm.reset();
     } catch (error) {
         formStatus.textContent = error instanceof Error
@@ -88,6 +93,40 @@ registrationForm.addEventListener("submit", async (event) => {
     } finally {
         submitButton.disabled = false;
         submitButton.textContent = "Submit registration";
+    }
+});
+
+shareButton.addEventListener("click", async () => {
+    const shareData = {
+        title: "Index Ideas — Charlotte",
+        text: "Join us at Sparkhouse in Charlotte, NC on September 18, 2026 from 7–9pm.",
+        url: window.location.href
+    };
+
+    formStatus.textContent = "";
+    formStatus.classList.remove("is-error", "is-success");
+
+    if (navigator.share) {
+        try {
+            await navigator.share(shareData);
+            formStatus.textContent = "Event shared successfully.";
+            formStatus.classList.add("is-success");
+        } catch (error) {
+            if (error.name !== "AbortError") {
+                formStatus.textContent = "Sharing wasn’t available. Try copying the page address.";
+                formStatus.classList.add("is-error");
+            }
+        }
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(shareData.url);
+        formStatus.textContent = "Event link copied to your clipboard.";
+        formStatus.classList.add("is-success");
+    } catch {
+        formStatus.textContent = "Copy this page address from your browser to share the event.";
+        formStatus.classList.add("is-error");
     }
 });
 

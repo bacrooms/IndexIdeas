@@ -1,5 +1,102 @@
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
+function escapeHtml(value) {
+    return value.replace(/[&<>'"]/g, (character) => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        "'": "&#39;",
+        '"': "&quot;"
+    })[character]);
+}
+
+async function sendConfirmationEmail({ name, email }) {
+    const resendApiKey = process.env.RESEND_API_KEY;
+    const from = process.env.RESEND_FROM_EMAIL;
+
+    if (!resendApiKey || !from) {
+        console.error("Resend environment variables are missing.");
+        return false;
+    }
+
+    const safeName = escapeHtml(name);
+    const text = [
+        `Hi ${name},`,
+        "",
+        "You're registered for Index Ideas.",
+        "",
+        "September 18, 2026 · 7–9pm",
+        "Sparkhouse",
+        "Charlotte, NC",
+        "",
+        "The best thinking. The best thinkers. Happening here.",
+        "",
+        "We look forward to seeing you."
+    ].join("\n");
+
+    const html = `<!doctype html>
+<html lang="en">
+  <body style="margin:0;background:#f2f6ff;color:#213666;font-family:Inter,Arial,sans-serif;">
+    <div style="display:none;max-height:0;overflow:hidden;opacity:0;">You're registered for Index Ideas in Charlotte.</div>
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:#f2f6ff;padding:32px 16px;">
+      <tr>
+        <td align="center">
+          <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#213666;border-radius:28px;overflow:hidden;box-shadow:0 20px 60px rgba(33,54,102,.18);">
+            <tr>
+              <td style="padding:48px 42px 24px;color:#ffcc00;font-size:12px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Index Ideas · Charlotte</td>
+            </tr>
+            <tr>
+              <td style="padding:0 42px;color:#ffffff;font-size:46px;font-weight:300;line-height:1.04;letter-spacing:-2px;">You're in, ${safeName}.</td>
+            </tr>
+            <tr>
+              <td style="padding:24px 42px 34px;color:rgba(255,255,255,.76);font-size:17px;line-height:1.6;">Your registration is confirmed. Join the brightest thinkers in the room for an evening of ideas, conversation, and forward motion.</td>
+            </tr>
+            <tr>
+              <td style="padding:0 42px 48px;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background:rgba(39,128,255,.22);border:1px solid rgba(255,255,255,.18);border-radius:18px;">
+                  <tr><td style="padding:24px 26px 8px;color:#ffffff;font-size:22px;font-weight:500;">September 18, 2026 · 7–9pm</td></tr>
+                  <tr><td style="padding:0 26px 24px;color:rgba(255,255,255,.7);font-size:15px;line-height:1.5;">Sparkhouse<br>Charlotte, NC</td></tr>
+                </table>
+              </td>
+            </tr>
+            <tr>
+              <td style="background:#2780ff;padding:24px 42px;color:#ffffff;font-size:14px;line-height:1.5;">The best thinking. The best thinkers. Happening here.</td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>`;
+
+    try {
+        const response = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+                Authorization: `Bearer ${resendApiKey}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                from,
+                to: [email],
+                subject: "You're registered for Index Ideas",
+                text,
+                html
+            })
+        });
+
+        if (!response.ok) {
+            console.error("Resend confirmation failed with status:", response.status);
+            return false;
+        }
+
+        return true;
+    } catch (error) {
+        console.error("Resend request failed:", error instanceof Error ? error.message : "Unknown error");
+        return false;
+    }
+}
+
 function json(body, status = 200) {
     return Response.json(body, {
         status,
@@ -104,6 +201,8 @@ export default {
             return json({ error: "Registration could not be completed." }, 502);
         }
 
-        return json({ success: true }, 201);
+        const emailSent = await sendConfirmationEmail({ name, email });
+
+        return json({ success: true, emailSent }, 201);
     }
 };
