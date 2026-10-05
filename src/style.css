@@ -13,14 +13,18 @@ body {
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  height: 100vh;
+  min-height: 100svh;
+  height: 100dvh;
+  box-sizing: border-box;
+  padding-block: max(16px, 2.5dvh);
+  overflow: hidden;
   cursor: crosshair;
   
   h1 {
     margin: 0;
     padding: 0;
     font-family: "Inter", sans-serif;
-    font-size: 7.5vw;
+    font-size: min(7.25vw, 11.2dvh);
     letter-spacing: -0.1rem;
     line-height: 0.95;
     text-align: center;
@@ -82,7 +86,7 @@ body {
 @media (max-width: 700px) {
   .title h1 {
     width: 92%;
-    font-size: 9vw;
+    font-size: min(9vw, 11.2dvh);
     letter-spacing: -0.05rem;
   }
 }
